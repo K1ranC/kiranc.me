@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Security — Kiran Chandra</title>
-  <meta name="description" content="How kiranc.me is built and secured: zero JavaScript, zero dependencies, strict headers, hardened DNS — and how to verify all of it yourself.">
+  <title>Security · Kiran Chandra</title>
+  <meta name="description" content="How kiranc.me is built and secured: zero JavaScript, zero dependencies, strict headers, hardened DNS, plus how to verify all of it yourself.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/styles.css">
   <link rel="canonical" href="https://kiranc.me/security">
@@ -31,7 +31,7 @@
       <h1>How this site is secured</h1>
       <p class="lede">
         A security engineer's website should be able to explain itself. This page
-        documents how kiranc.me is built and hardened — and links you to
+        documents how kiranc.me is built and hardened, and links you to
         independent tools so you can verify every claim rather than trust it.
       </p>
     </section>
@@ -44,7 +44,7 @@
       </p>
       <ul class="sec-list">
         <li><strong>Zero JavaScript.</strong> Nothing executes in your browser. There is no script to inject into, no DOM to poison, no client-side dependency to compromise.</li>
-        <li><strong>Zero dependencies.</strong> No framework, no build pipeline, no <span class="mono">node_modules</span> — no supply chain to patch on someone else's schedule.</li>
+        <li><strong>Zero dependencies.</strong> No framework, no build pipeline, no <span class="mono">node_modules</span>. There is no supply chain to patch on someone else's schedule.</li>
         <li><strong>Zero third-party requests.</strong> System fonts, self-hosted images. Your browser talks to exactly one origin, and no analytics, trackers, or cookies exist to leak anything.</li>
       </ul>
     </section>
@@ -54,19 +54,19 @@
       <p class="sec-note">Every response is served with:</p>
       <dl class="sec-headers mono">
         <dt>Content-Security-Policy</dt>
-        <dd>default-src 'none' — resources are denied by default; only same-origin styles and images are allowed back in. No scripts, no frames, no forms. Trusted Types are required and no policies are allowed — a DOM-XSS defense declared for a site that runs no DOM scripting at all.</dd>
+        <dd>default-src 'none': resources are denied by default, and only same-origin styles and images are allowed back in. No scripts, no frames, no forms. Trusted Types are required with no policies allowed, a DOM-XSS defense declared for a site that runs no DOM scripting at all.</dd>
         <dt>Strict-Transport-Security</dt>
-        <dd>max-age=63072000; includeSubDomains; preload — browsers refuse plain HTTP for two years.</dd>
+        <dd>max-age=63072000; includeSubDomains; preload: browsers refuse plain HTTP for two years.</dd>
         <dt>X-Frame-Options / frame-ancestors</dt>
-        <dd>DENY — this site cannot be embedded, which is what kills clickjacking.</dd>
+        <dd>DENY: this site cannot be embedded, which is what kills clickjacking.</dd>
         <dt>Referrer-Policy</dt>
-        <dd>no-referrer — following a link out of this site tells the destination nothing about where you came from.</dd>
+        <dd>no-referrer: following a link out of this site tells the destination nothing about where you came from.</dd>
         <dt>Permissions-Policy</dt>
         <dd>camera, microphone, geolocation, payment, USB, and ad-topics APIs are all explicitly disabled.</dd>
         <dt>COOP / COEP / CORP</dt>
-        <dd>the complete cross-origin isolation triad — same-origin opener policy, require-corp embedder policy, same-origin resource policy. Full process isolation, rarely all three even on major sites.</dd>
+        <dd>the complete cross-origin isolation triad: same-origin opener policy, require-corp embedder policy, same-origin resource policy. Full process isolation, rarely all three even on major sites.</dd>
         <dt>X-Content-Type-Options</dt>
-        <dd>nosniff — declared content types are final.</dd>
+        <dd>nosniff: declared content types are final.</dd>
       </dl>
       <p class="sec-note">Check from your own terminal:</p>
       <pre class="code-block mono">$ curl -sI https://kiranc.me | grep -iE 'security|policy|frame'</pre>
@@ -75,12 +75,12 @@
     <section id="dns" aria-labelledby="dns-h">
       <h2 id="dns-h" class="mono"><span class="accent">//</span> dns &amp; email posture</h2>
       <ul class="sec-list">
-        <li><strong>Minimal zone.</strong> The DNS zone holds exactly what the site needs — no stale records, no dangling subdomains pointing at machines I no longer control.</li>
-        <li><strong>DNSSEC.</strong> The zone is cryptographically signed, so resolvers can verify these records weren't tampered with in transit — check the chain at <a href="https://dnsviz.net/d/kiranc.me/dnssec/" rel="noopener" target="_blank">DNSViz ↗</a> or with <span class="mono">dig +dnssec kiranc.me</span>.</li>
-        <li><strong>HTTPS resource record (RFC 9460).</strong> A type-65 DNS record tells browsers, before the first connection, that this name speaks HTTPS over h2 — an HSTS-like signal at the DNS layer.</li>
-        <li><strong>CAA pinning.</strong> <span class="mono">0 issue "letsencrypt.org"</span> — only Let's Encrypt may issue certificates for this domain; a mis-issued cert from any other CA is invalid by policy.</li>
-        <li><strong>This domain sends no email — and publishes policy saying so.</strong> A null SPF record (<span class="mono">v=spf1 -all</span>) plus a strict-alignment DMARC reject policy means any message claiming to be from @kiranc.me is spoofed, and receiving servers are instructed to drop it.</li>
-        <li><strong><a href="/.well-known/security.txt">security.txt</a></strong> (RFC 9116) — a machine-readable disclosure contact, where security tooling expects it.</li>
+        <li><strong>Minimal zone.</strong> The DNS zone holds exactly what the site needs: no stale records, no dangling subdomains pointing at machines I no longer control.</li>
+        <li><strong>DNSSEC.</strong> The zone is cryptographically signed, so resolvers can verify these records weren't tampered with in transit. Check the chain at <a href="https://dnsviz.net/d/kiranc.me/dnssec/" rel="noopener" target="_blank">DNSViz ↗</a> or with <span class="mono">dig +dnssec kiranc.me</span>.</li>
+        <li><strong>HTTPS resource record (RFC 9460).</strong> A type-65 DNS record tells browsers, before the first connection, that this name speaks HTTPS over h2, an HSTS-like signal at the DNS layer.</li>
+        <li><strong>CAA pinning.</strong> <span class="mono">0 issue "letsencrypt.org"</span> means only Let's Encrypt may issue certificates for this domain; a mis-issued cert from any other CA is invalid by policy.</li>
+        <li><strong>This domain sends no email, and publishes policy saying so.</strong> A null SPF record (<span class="mono">v=spf1 -all</span>) plus a strict-alignment DMARC reject policy means any message claiming to be from @kiranc.me is spoofed, and receiving servers are instructed to drop it.</li>
+        <li><strong><a href="/.well-known/security.txt">security.txt</a></strong> (RFC 9116): a machine-readable disclosure contact, where security tooling expects it.</li>
       </ul>
     </section>
 
@@ -88,27 +88,27 @@
       <h2 id="monitoring-h" class="mono"><span class="accent">//</span> monitoring &amp; judgment calls</h2>
       <ul class="sec-list">
         <li><strong>Certificate Transparency monitoring.</strong> The public CT logs are checked weekly for certificates issued for this domain; anything that isn't a routine Let's Encrypt renewal for the two expected hostnames raises an alert. Detection, not just prevention.</li>
-        <li><strong>Considered and rejected — DANE/TLSA:</strong> pinning certificates in DNS doesn't fit a managed platform that rotates certs automatically; a stale pin is an outage, and browsers don't validate TLSA anyway.</li>
-        <li><strong>Considered and rejected — CSP violation reporting:</strong> report endpoints would have browsers ship telemetry to a third party, breaking the zero-third-party-request promise for marginal benefit on a zero-script site.</li>
-        <li><strong>Waiting on — Encrypted Client Hello:</strong> the SNI in your TLS handshake is the one plaintext signal this site can't yet remove; ECH closes it, and lands here when the hosting edge supports it.</li>
+        <li><strong>Rejected: DANE/TLSA.</strong> Pinning certificates in DNS doesn't fit a managed platform that rotates certs automatically; a stale pin is an outage, and browsers don't validate TLSA anyway.</li>
+        <li><strong>Rejected: CSP violation reporting.</strong> Report endpoints would have browsers ship telemetry to a third party, breaking the zero-third-party-request promise for marginal benefit on a zero-script site.</li>
+        <li><strong>Waiting on: Encrypted Client Hello.</strong> The SNI in your TLS handshake is the one plaintext signal this site can't yet remove; ECH closes it, and lands here when the hosting edge supports it.</li>
       </ul>
     </section>
 
     <section id="verify" aria-labelledby="verify-h">
       <h2 id="verify-h" class="mono"><span class="accent">//</span> verify it yourself</h2>
       <p class="sec-note">
-        Don't take this page's word for any of it — the same rule as the
+        Don't take this page's word for any of it. The same rule applies here as to the
         credential badges on the <a href="/#certifications">certifications</a> section.
         Live, third-party checks:
       </p>
       <ul class="sec-list">
-        <li><a href="https://developer.mozilla.org/en-US/observatory/analyze?host=kiranc.me" rel="noopener" target="_blank">Mozilla HTTP Observatory ↗</a> — full header and configuration scan, scored.</li>
-        <li><a href="https://securityheaders.com/?q=kiranc.me&amp;followRedirects=on" rel="noopener" target="_blank">securityheaders.com ↗</a> — independent header grade.</li>
-        <li><a href="https://crt.sh/?q=kiranc.me" rel="noopener" target="_blank">Certificate Transparency log ↗</a> — every certificate ever issued for this domain, on the public record.</li>
-        <li><a href="https://www.ssllabs.com/ssltest/analyze.html?d=kiranc.me" rel="noopener" target="_blank">Qualys SSL Labs ↗</a> — TLS configuration deep-dive.</li>
+        <li><a href="https://developer.mozilla.org/en-US/observatory/analyze?host=kiranc.me" rel="noopener" target="_blank">Mozilla HTTP Observatory ↗</a>: full header and configuration scan, scored.</li>
+        <li><a href="https://securityheaders.com/?q=kiranc.me&amp;followRedirects=on" rel="noopener" target="_blank">securityheaders.com ↗</a>: independent header grade.</li>
+        <li><a href="https://crt.sh/?q=kiranc.me" rel="noopener" target="_blank">Certificate Transparency log ↗</a>: every certificate ever issued for this domain, on the public record.</li>
+        <li><a href="https://www.ssllabs.com/ssltest/analyze.html?d=kiranc.me" rel="noopener" target="_blank">Qualys SSL Labs ↗</a>: TLS configuration deep-dive.</li>
       </ul>
       <p class="sec-note">
-        Found something anyway? See <a class="mono" href="/.well-known/security.txt">security.txt</a> —
+        Found something anyway? See <a class="mono" href="/.well-known/security.txt">security.txt</a>.
         I'd genuinely like to know.
       </p>
     </section>
