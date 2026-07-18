@@ -8,6 +8,7 @@
   --text: #e8ecf1;
   --text-mute: #9aa5b1;
   --accent: #d9a441;
+  --accent-soft: #b08a3e;
   --accent-dim: #8a6a2f;
   --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -42,8 +43,18 @@ body {
 }
 
 a { color: var(--accent); text-decoration: none; }
-a:hover, a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
-a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* links inside prose need a resting underline — color alone fails WCAG 1.4.1 */
+main p a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--accent-dim); }
+main p a:hover { text-decoration-color: var(--accent); }
 
 /* ---------- top bar ---------- */
 
@@ -51,7 +62,9 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   position: sticky;
   top: 0;
   z-index: 10;
+  background: rgba(11, 15, 20, 0.92);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
@@ -225,6 +238,12 @@ h2 {
 
 /* ---------- certifications ---------- */
 
+.certs-note {
+  color: var(--text-mute);
+  font-size: 0.9rem;
+  margin: -0.9rem 0 1.4rem;
+}
+
 .certs {
   list-style: none;
   display: grid;
@@ -233,6 +252,9 @@ h2 {
 }
 
 .cert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--bg-raise);
@@ -241,6 +263,29 @@ h2 {
 }
 .cert:hover { border-color: var(--accent-dim); }
 
+.cert-badge {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 4px;
+}
+
+.cert-tile {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--accent-soft);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+}
+
+.cert-body { min-width: 0; }
+
 .cert-name { font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
 .cert-abbr {
   color: var(--accent);
@@ -248,9 +293,14 @@ h2 {
   font-weight: 500;
 }
 .cert-meta {
-  margin-top: 0.45rem;
+  margin-top: 0.35rem;
   font-size: 0.75rem;
   color: var(--text-mute);
+}
+.cert-verify {
+  display: inline-block;
+  margin-top: 0.45rem;
+  font-size: 0.75rem;
 }
 
 /* ---------- skills ---------- */
@@ -301,7 +351,7 @@ footer {
   font-size: 0.75rem;
   color: var(--text-mute);
 }
-.trust { color: var(--accent-dim); }
+.trust { color: var(--accent-soft); }
 
 /* ---------- small screens ---------- */
 
@@ -312,4 +362,23 @@ footer {
   .topbar-inner { flex-wrap: wrap; row-gap: 0.1rem; }
   .topbar nav { gap: 0.8rem; font-size: 0.75rem; flex-wrap: wrap; }
   .hero { padding-top: 3.5rem; }
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  :root {
+    --bg: #ffffff;
+    --bg-raise: #ffffff;
+    --line: #c8ccd2;
+    --text: #14181d;
+    --text-mute: #43505c;
+    --accent: #8a5f1d;
+    --accent-soft: #8a5f1d;
+    --accent-dim: #8a5f1d;
+  }
+  body { background: #ffffff; }
+  .topbar, .cursor, .hero-actions { display: none; }
+  .job, .cert { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
 }
