@@ -109,7 +109,7 @@ main p a:hover { text-decoration-color: var(--accent); }
 .portrait {
   flex: none;
   color: var(--accent);
-  font-size: 0.48rem;
+  font-size: 0.46rem;
   line-height: 1.2;
   user-select: none;
 }
