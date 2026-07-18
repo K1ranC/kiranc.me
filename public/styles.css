@@ -97,8 +97,9 @@ main p a:hover { text-decoration-color: var(--accent); }
 
 /* ---------- hero ---------- */
 
-.hero {
-  padding: 5.5rem 0 4rem;
+.hero { padding: 5.5rem 0 4rem; }
+
+.hero-split {
   display: flex;
   align-items: center;
   gap: 2.8rem;
@@ -162,7 +163,7 @@ main p a:hover { text-decoration-color: var(--accent); }
   .portrait { display: none; }
 }
 @media (min-width: 64rem) {
-  .hero { margin-inline: -7.5rem; gap: 3.5rem; }
+  .hero-split { margin-inline: -7.5rem; gap: 3.5rem; }
 }
 
 .prompt {
