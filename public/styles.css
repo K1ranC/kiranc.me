@@ -92,6 +92,8 @@ main p a:hover { text-decoration-color: var(--accent); }
 }
 .topbar nav a { color: var(--text-mute); }
 .topbar nav a:hover { color: var(--accent); text-decoration: none; }
+.topbar nav a.nav-hot { color: var(--accent); }
+.topbar nav a.nav-hot:hover { color: #e3b356; }
 
 /* ---------- hero ---------- */
 
