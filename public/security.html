@@ -56,7 +56,7 @@
         <dt>Content-Security-Policy</dt>
         <dd>default-src 'none': resources are denied by default, and only same-origin styles and images are allowed back in. No scripts, no frames, no forms. Trusted Types are required with no policies allowed, a DOM-XSS defense declared for a site that runs no DOM scripting at all.</dd>
         <dt>Strict-Transport-Security</dt>
-        <dd>max-age=63072000; includeSubDomains; preload: browsers refuse plain HTTP for two years.</dd>
+        <dd>max-age=63072000; includeSubDomains; preload: browsers refuse plain HTTP for two years, and the domain is submitted to the <a href="https://hstspreload.org/?domain=kiranc.me" rel="noopener" target="_blank">browser preload list ↗</a> so the very first visit is HTTPS too.</dd>
         <dt>X-Frame-Options / frame-ancestors</dt>
         <dd>DENY: this site cannot be embedded, which is what kills clickjacking.</dd>
         <dt>Referrer-Policy</dt>
