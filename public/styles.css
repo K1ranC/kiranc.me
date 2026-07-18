@@ -1,4 +1,4 @@
-/* kiranc.me — hand-built, zero-JS, zero external requests.
+/* kiranc.me: hand-built, zero-JS, zero external requests.
    Palette: deep blue-black + phosphor amber (VT220 heritage, no hacker cliché). */
 
 :root {
@@ -52,7 +52,7 @@ a:focus-visible {
   border-radius: 2px;
 }
 
-/* links inside prose need a resting underline — color alone fails WCAG 1.4.1 */
+/* links inside prose need a resting underline; color alone fails WCAG 1.4.1 */
 main p a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--accent-dim); }
 main p a:hover { text-decoration-color: var(--accent); }
 
