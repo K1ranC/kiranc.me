@@ -270,20 +270,6 @@ h2 {
   border-radius: 4px;
 }
 
-.cert-tile {
-  width: 56px;
-  height: 56px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  color: var(--accent-soft);
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-}
-
 .cert-body { min-width: 0; }
 
 .cert-name { font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
