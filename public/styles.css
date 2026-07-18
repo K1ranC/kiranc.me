@@ -108,10 +108,42 @@ main p a:hover { text-decoration-color: var(--accent); }
 
 .portrait {
   flex: none;
+  position: relative;
+  overflow: hidden;
   color: var(--accent);
-  font-size: 0.46rem;
+  font-size: 0.42rem;
   line-height: 1.2;
   user-select: none;
+  animation: portrait-print 1.7s steps(50, end) both;
+  -webkit-mask-image: linear-gradient(180deg, #000 84%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 84%, transparent 100%);
+}
+
+.portrait::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -12%;
+  height: 10%;
+  background: linear-gradient(180deg, transparent, rgba(217, 164, 65, 0.16), transparent);
+  animation: portrait-scan 7s linear 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes portrait-print {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes portrait-scan {
+  from { top: -12%; }
+  to { top: 108%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait { animation: none; clip-path: none; }
+  .portrait::after { animation: none; display: none; }
 }
 
 .prompt {
