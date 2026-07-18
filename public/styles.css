@@ -174,6 +174,61 @@ h1 {
 }
 .btn-primary:hover { background: #e3b356; border-color: #e3b356; }
 
+/* ---------- security page ---------- */
+
+.hero-compact { padding: 4rem 0 1.5rem; }
+
+.sec-note { color: var(--text-mute); max-width: 40rem; margin-bottom: 1rem; }
+
+.sec-list {
+  list-style: none;
+  color: var(--text-mute);
+  max-width: 42rem;
+}
+.sec-list li {
+  padding-left: 1.1rem;
+  position: relative;
+  margin-bottom: 0.7rem;
+}
+.sec-list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--accent-dim);
+}
+.sec-list strong { color: var(--text); font-weight: 600; }
+
+.sec-headers {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-raise);
+  padding: 1.1rem 1.2rem;
+  max-width: 42rem;
+}
+.sec-headers dt {
+  color: var(--accent);
+  font-size: 0.8rem;
+  margin-top: 0.9rem;
+}
+.sec-headers dt:first-child { margin-top: 0; }
+.sec-headers dd {
+  color: var(--text-mute);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin-top: 0.2rem;
+}
+
+.code-block {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-raise);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  overflow-x: auto;
+  max-width: 42rem;
+}
+
 /* ---------- sections ---------- */
 
 section { padding: 2.6rem 0; scroll-margin-top: 4.5rem; }
@@ -338,6 +393,8 @@ footer {
   color: var(--text-mute);
 }
 .trust { color: var(--accent-soft); }
+.trust a { color: inherit; }
+.trust a:hover { color: var(--accent); text-decoration: none; }
 
 /* ---------- small screens ---------- */
 

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Security — Kiran Chandra</title>
+  <meta name="description" content="How kiranc.me is built and secured: zero JavaScript, zero dependencies, strict headers, hardened DNS — and how to verify all of it yourself.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="canonical" href="https://kiranc.me/security">
+  <meta name="theme-color" content="#0b0f14">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand mono" href="/">kiranc<span class="accent">.</span>me</a>
+      <nav class="mono" aria-label="Sections">
+        <a href="/#experience">experience</a>
+        <a href="/#certifications">certifications</a>
+        <a href="/#contact">contact</a>
+        <a href="/security" aria-current="page">security</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="hero hero-compact" aria-label="Introduction">
+      <p class="prompt mono" aria-hidden="true"><span class="prompt-user">kiran@kiranc.me</span>:<span class="prompt-path">~</span>$ cat security.md<span class="cursor"></span></p>
+      <h1>How this site is secured</h1>
+      <p class="lede">
+        A security engineer's website should be able to explain itself. This page
+        documents how kiranc.me is built and hardened — and links you to
+        independent tools so you can verify every claim rather than trust it.
+      </p>
+    </section>
+
+    <section id="architecture" aria-labelledby="architecture-h">
+      <h2 id="architecture-h" class="mono"><span class="accent">//</span> architecture: nothing to attack</h2>
+      <p class="sec-note">
+        The site is hand-written static HTML and CSS. The most effective
+        security control here is subtraction:
+      </p>
+      <ul class="sec-list">
+        <li><strong>Zero JavaScript.</strong> Nothing executes in your browser. There is no script to inject into, no DOM to poison, no client-side dependency to compromise.</li>
+        <li><strong>Zero dependencies.</strong> No framework, no build pipeline, no <span class="mono">node_modules</span> — no supply chain to patch on someone else's schedule.</li>
+        <li><strong>Zero third-party requests.</strong> System fonts, self-hosted images. Your browser talks to exactly one origin, and no analytics, trackers, or cookies exist to leak anything.</li>
+      </ul>
+    </section>
+
+    <section id="headers" aria-labelledby="headers-h">
+      <h2 id="headers-h" class="mono"><span class="accent">//</span> response headers</h2>
+      <p class="sec-note">Every response is served with:</p>
+      <dl class="sec-headers mono">
+        <dt>Content-Security-Policy</dt>
+        <dd>default-src 'none' — resources are denied by default; only same-origin styles and images are allowed back in. No scripts, no frames, no forms.</dd>
+        <dt>Strict-Transport-Security</dt>
+        <dd>max-age=63072000; includeSubDomains; preload — browsers refuse plain HTTP for two years.</dd>
+        <dt>X-Frame-Options / frame-ancestors</dt>
+        <dd>DENY — this site cannot be embedded, which is what kills clickjacking.</dd>
+        <dt>Referrer-Policy</dt>
+        <dd>no-referrer — following a link out of this site tells the destination nothing about where you came from.</dd>
+        <dt>Permissions-Policy</dt>
+        <dd>camera, microphone, geolocation, payment, USB, and ad-topics APIs are all explicitly disabled.</dd>
+        <dt>COOP / CORP</dt>
+        <dd>same-origin — process isolation from cross-origin windows and resource embedding.</dd>
+        <dt>X-Content-Type-Options</dt>
+        <dd>nosniff — declared content types are final.</dd>
+      </dl>
+      <p class="sec-note">Check from your own terminal:</p>
+      <pre class="code-block mono">$ curl -sI https://kiranc.me | grep -iE 'security|policy|frame'</pre>
+    </section>
+
+    <section id="dns" aria-labelledby="dns-h">
+      <h2 id="dns-h" class="mono"><span class="accent">//</span> dns &amp; email posture</h2>
+      <ul class="sec-list">
+        <li><strong>Minimal zone.</strong> The DNS zone holds exactly what the site needs — no stale records, no dangling subdomains pointing at machines I no longer control.</li>
+        <li><strong>CAA pinning.</strong> <span class="mono">0 issue "letsencrypt.org"</span> — only Let's Encrypt may issue certificates for this domain; a mis-issued cert from any other CA is invalid by policy.</li>
+        <li><strong>This domain sends no email — and publishes policy saying so.</strong> A null SPF record (<span class="mono">v=spf1 -all</span>) plus a strict-alignment DMARC reject policy means any message claiming to be from @kiranc.me is spoofed, and receiving servers are instructed to drop it.</li>
+        <li><strong><a href="/.well-known/security.txt">security.txt</a></strong> (RFC 9116) — a machine-readable disclosure contact, where security tooling expects it.</li>
+      </ul>
+    </section>
+
+    <section id="verify" aria-labelledby="verify-h">
+      <h2 id="verify-h" class="mono"><span class="accent">//</span> verify it yourself</h2>
+      <p class="sec-note">
+        Don't take this page's word for any of it — the same rule as the
+        credential badges on the <a href="/#certifications">certifications</a> section.
+        Live, third-party checks:
+      </p>
+      <ul class="sec-list">
+        <li><a href="https://developer.mozilla.org/en-US/observatory/analyze?host=kiranc.me" rel="noopener" target="_blank">Mozilla HTTP Observatory ↗</a> — full header and configuration scan, scored.</li>
+        <li><a href="https://securityheaders.com/?q=kiranc.me&amp;followRedirects=on" rel="noopener" target="_blank">securityheaders.com ↗</a> — independent header grade.</li>
+        <li><a href="https://crt.sh/?q=kiranc.me" rel="noopener" target="_blank">Certificate Transparency log ↗</a> — every certificate ever issued for this domain, on the public record.</li>
+        <li><a href="https://www.ssllabs.com/ssltest/analyze.html?d=kiranc.me" rel="noopener" target="_blank">Qualys SSL Labs ↗</a> — TLS configuration deep-dive.</li>
+      </ul>
+      <p class="sec-note">
+        Found something anyway? See <a class="mono" href="/.well-known/security.txt">security.txt</a> —
+        I'd genuinely like to know.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <p class="mono trust">no javascript · no cookies · no trackers · strict csp</p>
+      <p class="mono colophon">© 2026 Kiran Chandra · hand-built static html</p>
+    </div>
+  </footer>
+
+</body>
+</html>

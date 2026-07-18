@@ -16,6 +16,7 @@ Personal site for Kiran Chandra — Senior Security Operations Engineer.
 ```
 public/            deployed site root
   index.html       the site (single page)
+  security.html    how the site is secured + verify-it-yourself links
   404.html         custom not-found page
   styles.css       all styling
   favicon.svg
