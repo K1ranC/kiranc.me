@@ -20,7 +20,7 @@ public/            deployed site root
   styles.css       all styling
   favicon.svg
   robots.txt
-  resume/          web-safe resume PDF (no phone number)
+  badges/          self-hosted credential badge artwork
   .well-known/security.txt
 vercel.json        security headers + static config
 ```
