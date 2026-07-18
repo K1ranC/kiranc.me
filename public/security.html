@@ -54,7 +54,7 @@
       <p class="sec-note">Every response is served with:</p>
       <dl class="sec-headers mono">
         <dt>Content-Security-Policy</dt>
-        <dd>default-src 'none' — resources are denied by default; only same-origin styles and images are allowed back in. No scripts, no frames, no forms.</dd>
+        <dd>default-src 'none' — resources are denied by default; only same-origin styles and images are allowed back in. No scripts, no frames, no forms. Trusted Types are required and no policies are allowed — a DOM-XSS defense declared for a site that runs no DOM scripting at all.</dd>
         <dt>Strict-Transport-Security</dt>
         <dd>max-age=63072000; includeSubDomains; preload — browsers refuse plain HTTP for two years.</dd>
         <dt>X-Frame-Options / frame-ancestors</dt>
@@ -63,8 +63,8 @@
         <dd>no-referrer — following a link out of this site tells the destination nothing about where you came from.</dd>
         <dt>Permissions-Policy</dt>
         <dd>camera, microphone, geolocation, payment, USB, and ad-topics APIs are all explicitly disabled.</dd>
-        <dt>COOP / CORP</dt>
-        <dd>same-origin — process isolation from cross-origin windows and resource embedding.</dd>
+        <dt>COOP / COEP / CORP</dt>
+        <dd>the complete cross-origin isolation triad — same-origin opener policy, require-corp embedder policy, same-origin resource policy. Full process isolation, rarely all three even on major sites.</dd>
         <dt>X-Content-Type-Options</dt>
         <dd>nosniff — declared content types are final.</dd>
       </dl>
@@ -76,9 +76,21 @@
       <h2 id="dns-h" class="mono"><span class="accent">//</span> dns &amp; email posture</h2>
       <ul class="sec-list">
         <li><strong>Minimal zone.</strong> The DNS zone holds exactly what the site needs — no stale records, no dangling subdomains pointing at machines I no longer control.</li>
+        <li><strong>DNSSEC.</strong> The zone is cryptographically signed, so resolvers can verify these records weren't tampered with in transit — check the chain at <a href="https://dnsviz.net/d/kiranc.me/dnssec/" rel="noopener" target="_blank">DNSViz ↗</a> or with <span class="mono">dig +dnssec kiranc.me</span>.</li>
+        <li><strong>HTTPS resource record (RFC 9460).</strong> A type-65 DNS record tells browsers, before the first connection, that this name speaks HTTPS over h2 — an HSTS-like signal at the DNS layer.</li>
         <li><strong>CAA pinning.</strong> <span class="mono">0 issue "letsencrypt.org"</span> — only Let's Encrypt may issue certificates for this domain; a mis-issued cert from any other CA is invalid by policy.</li>
         <li><strong>This domain sends no email — and publishes policy saying so.</strong> A null SPF record (<span class="mono">v=spf1 -all</span>) plus a strict-alignment DMARC reject policy means any message claiming to be from @kiranc.me is spoofed, and receiving servers are instructed to drop it.</li>
         <li><strong><a href="/.well-known/security.txt">security.txt</a></strong> (RFC 9116) — a machine-readable disclosure contact, where security tooling expects it.</li>
+      </ul>
+    </section>
+
+    <section id="monitoring" aria-labelledby="monitoring-h">
+      <h2 id="monitoring-h" class="mono"><span class="accent">//</span> monitoring &amp; judgment calls</h2>
+      <ul class="sec-list">
+        <li><strong>Certificate Transparency monitoring.</strong> The public CT logs are checked weekly for certificates issued for this domain; anything that isn't a routine Let's Encrypt renewal for the two expected hostnames raises an alert. Detection, not just prevention.</li>
+        <li><strong>Considered and rejected — DANE/TLSA:</strong> pinning certificates in DNS doesn't fit a managed platform that rotates certs automatically; a stale pin is an outage, and browsers don't validate TLSA anyway.</li>
+        <li><strong>Considered and rejected — CSP violation reporting:</strong> report endpoints would have browsers ship telemetry to a third party, breaking the zero-third-party-request promise for marginal benefit on a zero-script site.</li>
+        <li><strong>Waiting on — Encrypted Client Hello:</strong> the SNI in your TLS handshake is the one plaintext signal this site can't yet remove; ECH closes it, and lands here when the hosting edge supports it.</li>
       </ul>
     </section>
 
