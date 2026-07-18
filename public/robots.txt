@@ -1,2 +1,5 @@
+# a thorough robots.txt reader deserves a hint:
+# the story starts at view-source:https://kiranc.me/
 User-agent: *
 Allow: /
+Disallow: /admin
