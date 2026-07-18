@@ -163,7 +163,7 @@ h1 {
 
 /* ---------- sections ---------- */
 
-section { padding: 2.6rem 0; }
+section { padding: 2.6rem 0; scroll-margin-top: 4.5rem; }
 
 h2 {
   font-size: 0.95rem;
@@ -308,6 +308,8 @@ footer {
 @media (max-width: 40rem) {
   .certs { grid-template-columns: 1fr; }
   .skill-row { flex-direction: column; gap: 0.4rem; }
-  .topbar nav { gap: 0.8rem; font-size: 0.75rem; }
+  .skill-label { flex: none; }
+  .topbar-inner { flex-wrap: wrap; row-gap: 0.1rem; }
+  .topbar nav { gap: 0.8rem; font-size: 0.75rem; flex-wrap: wrap; }
   .hero { padding-top: 3.5rem; }
 }
