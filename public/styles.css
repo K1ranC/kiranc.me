@@ -138,16 +138,31 @@ h1 {
   max-width: 38rem;
 }
 
-.hero-meta {
-  list-style: none;
+.fetch {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 0.4rem 1.6rem;
-  margin-top: 1.6rem;
-  font-size: 0.8rem;
-  color: var(--text-mute);
+  gap: 1rem 1.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-raise);
+  padding: 1.1rem 1.3rem;
+  margin-top: 1.8rem;
+  max-width: fit-content;
 }
-.hero-meta li::before { content: "▸ "; color: var(--accent-dim); }
+.fetch-art {
+  color: var(--accent);
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+.fetch-info {
+  color: var(--text-mute);
+  font-size: 0.72rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.fetch-user { color: var(--accent); }
 
 .hero-actions {
   display: flex;
@@ -352,6 +367,7 @@ h2 {
   margin-top: 0.45rem;
   font-size: 0.75rem;
 }
+.cert-verify + .cert-verify { margin-left: 0.9rem; }
 
 /* ---------- skills ---------- */
 
@@ -413,6 +429,8 @@ footer {
   .skill-label { flex: none; }
   .topbar { position: static; }
   .topbar-inner { flex-wrap: wrap; row-gap: 0.1rem; }
+  .fetch { padding: 0.9rem 1rem; }
+  .fetch-info { font-size: 0.66rem; }
   .topbar nav { gap: 0.25rem 0.9rem; font-size: 0.75rem; flex-wrap: wrap; }
   .hero { padding-top: 3.5rem; }
   section { scroll-margin-top: 1rem; }
