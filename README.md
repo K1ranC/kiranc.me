@@ -28,11 +28,15 @@ vercel.json        security headers + static config
 
 ## Local development
 
-No toolchain required:
+`vercel dev` mirrors production behavior (cleanUrls, headers, redirects):
 
 ```sh
-python3 -m http.server 8000 --directory public
+vercel dev --listen 4173
 ```
+
+For a zero-tooling fallback, `python3 -m http.server 8000 --directory public`
+works but serves raw paths only (no `/security` → `security.html` mapping,
+no headers).
 
 ## Deploy
 
