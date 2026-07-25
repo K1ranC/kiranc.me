@@ -317,6 +317,8 @@ h2 {
   margin-bottom: 1.8rem;
 }
 
+.cmd-head { font-weight: 500; letter-spacing: 0; }
+
 /* ---------- experience ---------- */
 
 .job {
@@ -453,7 +455,18 @@ h2 {
 
 /* ---------- contact / footer ---------- */
 
-.contact-line { color: var(--text-mute); max-width: 36rem; }
+.term-output {
+  color: var(--text-mute);
+  max-width: 40rem;
+  font-size: 0.9rem;
+  line-height: 1.85;
+}
+.term-output p { margin: 0; }
+.term-exit {
+  color: var(--accent-dim);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
 
 footer {
   border-top: 1px solid var(--line);
