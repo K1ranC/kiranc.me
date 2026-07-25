@@ -6,7 +6,7 @@ Personal site for Kiran Chandra — Senior Security Operations Engineer.
 
 - **Zero JavaScript.** The site is static HTML and CSS. Nothing executes in the visitor's browser.
 - **Zero dependencies.** No framework, no build step, no `node_modules` — no supply chain to patch.
-- **Zero third-party requests.** System font stacks, self-hosted assets. Visitors talk to one origin.
+- **Zero third-party requests.** Self-hosted fonts (Geist, SIL OFL) and images. Visitors talk to one origin.
 - **Strict headers.** `default-src 'none'`-based CSP, HSTS (preload-ready), `frame-ancestors 'none'`,
   `Referrer-Policy: no-referrer`, COOP/CORP — configured in [`vercel.json`](vercel.json).
 - **[RFC 9116](https://www.rfc-editor.org/rfc/rfc9116)** `security.txt` at `/.well-known/security.txt`.
