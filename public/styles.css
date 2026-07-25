@@ -214,6 +214,36 @@ main p a:hover { text-decoration-color: var(--accent); }
   .type-cmd { animation: none; width: 6ch; }
 }
 
+/* section commands type themselves as they scroll into view;
+   browsers without scroll timelines just show the full text */
+.tw {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+.tw12 { width: 12ch; }
+.tw14 { width: 14ch; }
+.tw16 { width: 16ch; }
+.tw18 { width: 18ch; }
+@supports (animation-timeline: view()) {
+  .tw {
+    animation-name: tw-type;
+    animation-duration: 1ms;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 32%;
+  }
+  .tw12 { animation-timing-function: steps(12, end); }
+  .tw14 { animation-timing-function: steps(14, end); }
+  .tw16 { animation-timing-function: steps(16, end); }
+  .tw18 { animation-timing-function: steps(18, end); }
+}
+@keyframes tw-type { from { width: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .tw { animation: none; }
+}
+
 h1 {
   font-size: clamp(2.4rem, 7vw, 3.4rem);
   font-weight: 700;
